@@ -16,5 +16,4 @@ func main() {
 	renderer.Call("setSize", 500, 500)
 
 	body.Call("appendChild", renderer.Get("domElement"))
-
 }
