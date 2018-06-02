@@ -5,10 +5,11 @@ import (
 )
 
 var (
-	cube     *js.Object
-	scene    *js.Object
-	camera   *js.Object
-	renderer *js.Object
+	cube       *js.Object
+	scene      *js.Object
+	camera     *js.Object
+	renderer   *js.Object
+	cubeOffset = 0.05
 )
 
 const (
@@ -21,8 +22,8 @@ func renderLoop() {
 	cubeX := rot.Get("x").Float()
 	cubeY := rot.Get("y").Float()
 
-	cubeX += 0.05
-	cubeY += 0.05
+	cubeX += cubeOffset
+	cubeY += cubeOffset
 
 	rot.Set("x", cubeX)
 	rot.Set("y", cubeY)
@@ -30,6 +31,11 @@ func renderLoop() {
 	renderer.Call("render", scene, camera)
 
 	js.Global.Call("setTimeout", renderLoop, fps)
+}
+
+func okClicked() {
+	val := js.Global.Get("commandInput").Get("value").Float()
+	cubeOffset = val
 }
 
 func main() {
@@ -53,6 +59,8 @@ func main() {
 	renderer.Call("setSize", 500, 500)
 
 	body.Call("appendChild", renderer.Get("domElement"))
+
+	js.Global.Get("okButton").Call("addEventListener", "click", okClicked)
 
 	renderLoop()
 }
