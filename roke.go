@@ -6,24 +6,30 @@ import (
 
 var (
 	cube     *js.Object
-	cubeX    float64
-	cubeY    float64
 	scene    *js.Object
 	camera   *js.Object
 	renderer *js.Object
 )
 
+const (
+	fps = 1000 / 30
+)
+
 func renderLoop() {
+	rot := cube.Get("rotation")
+
+	cubeX := rot.Get("x").Float()
+	cubeY := rot.Get("y").Float()
+
 	cubeX += 0.05
 	cubeY += 0.05
 
-	rot := cube.Get("rotation")
 	rot.Set("x", cubeX)
 	rot.Set("y", cubeY)
 
 	renderer.Call("render", scene, camera)
 
-	js.Global.Call("setTimeout", renderLoop, 1000/30)
+	js.Global.Call("setTimeout", renderLoop, fps)
 }
 
 func main() {
