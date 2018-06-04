@@ -4,12 +4,23 @@
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
   <meta name=viewport content="width=device-width, initial-scale=1">
   <title>Roke</title>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+
+  <style>
+    #renderCanvas {
+      width: 350px;
+      height: 350px;
+      touch-action: none;
+    }
+  </style>
 </head>
 <body>
   <input type="text" id="commandInput" value="0.05" />
   <button id="okButton">OK</button>
 
-  <script src="three.js"></script>
+  <canvas id="renderCanvas" touch-action="none"></canvas>
   <script src="roke.js"></script>
 </body>
 </html>

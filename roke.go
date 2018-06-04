@@ -10,6 +10,7 @@ var (
 	camera     *js.Object
 	renderer   *js.Object
 	cubeOffset = 0.05
+	count      = 0
 )
 
 const (
@@ -38,29 +39,42 @@ func okClicked() {
 	cubeOffset = val
 }
 
+func render() {
+	scene.Call("render")
+	count++
+
+	if count < 2 {
+		println(cube)
+		println("position", cube.Get("position"))
+	}
+}
+
+func onModelLoaded(obj *js.Object) {
+	println("onModelLoaded", obj)
+}
+
 func main() {
 	var document = js.Global.Get("document")
-	var body = document.Get("body")
+	var babylon = js.Global.Get("BABYLON")
 
-	var three = js.Global.Get("THREE")
-	scene = three.Get("Scene").New()
-	camera = three.Get("PerspectiveCamera").New(70, 1, 0.1, 1000)
+	var canvas = document.Call("getElementById", "renderCanvas")
+	var engine = babylon.Get("Engine").New(canvas, true)
 
-	var boxGeo = three.Get("BoxGeometry").New(1, 1, 1)
-	var material = three.Get("MeshBasicMaterial").New(map[string]int{"color": 0x0066cc})
-	cube = three.Get("Mesh").New(boxGeo, material)
+	scene = babylon.Get("Scene").New(engine)
+	vec3 := babylon.Get("Vector3").New(0, 3, 0)
+	camera = babylon.Get("ArcRotateCamera").New("Camera", 0, 0, 5, vec3, scene)
+	camera.Call("setPosition", babylon.Get("Vector3").New(0, 0, 150))
+	camera.Call("attachControl", canvas)
 
-	scene.Call("add", cube)
-	var pos = camera.Get("position")
-	pos.Set("z", 5)
+	light1Vector := babylon.Get("Vector3").New(0, 1, 0)
+	babylon.Get("HemisphericLight").New("light1", light1Vector, scene)
 
-	renderer = three.Get("WebGLRenderer").New()
+	loader := babylon.Get("AssetsManager").New(scene)
 
-	renderer.Call("setSize", 500, 500)
+	cube = loader.Call("addMeshTask", "block", "", "models/", "block.obj")
+	cube.Set("onSuccess", onModelLoaded)
 
-	body.Call("appendChild", renderer.Get("domElement"))
+	loader.Call("load")
 
-	js.Global.Get("okButton").Call("addEventListener", "click", okClicked)
-
-	renderLoop()
+	engine.Call("runRenderLoop", render)
 }
