@@ -9,7 +9,19 @@
   <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 
   <style>
+    #controls {
+      position: absolute;
+      background-color: #ddd;
+      top: 10px;
+      left: 10px;
+      width: 350px;
+      height: 350px;
+    }
+
     #renderCanvas {
+      position: absolute;
+      top: 10px;
+      left: 360px;
       width: 350px;
       height: 350px;
       touch-action: none;
@@ -17,8 +29,10 @@
   </style>
 </head>
 <body>
-  <input type="text" id="commandInput" value="0.001" />
-  <button id="okButton">OK</button>
+  <div id="controls">
+    <input type="text" id="commandInput" value="0.001" />
+    <button id="okButton">OK</button>
+  </div>
 
   <canvas id="renderCanvas" touch-action="none"></canvas>
   <script src="roke.js"></script>
