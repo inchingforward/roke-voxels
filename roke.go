@@ -62,8 +62,11 @@ func main() {
 
 	loader := babylon.Get("AssetsManager").New(scene)
 
-	cube := loader.Call("addMeshTask", "block", "", "models/", "block.obj")
-	cube.Set("onSuccess", onModelLoaded)
+	//cube := loader.Call("addMeshTask", "castle", "", "models/", "castle.obj")
+	//cube.Set("onSuccess", onModelLoaded)
+	loader.Call("addMeshTask", "castle", "", "models/", "castle.obj")
+	castle := loader.Call("addMeshTask", "chr_knight", "", "models/", "chr_knight.obj")
+	castle.Set("onSuccess", onModelLoaded)
 
 	loader.Call("load")
 
