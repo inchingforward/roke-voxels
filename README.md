@@ -6,5 +6,5 @@
 
 Exploring interactive web tutorials using GopherJS and Voxels.
 
-Latest builds released [here](http://mikejanger.net/roke).
+Latest builds released [here](http://mikejanger.net/roke-voxels).
 
